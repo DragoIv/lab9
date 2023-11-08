@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div align="center">
+      <form action="" onSubmit="CheckData(); return false;">
+        <p>Для регистрации необходимо указать ваши персональные данные</p>
+        <table>
+          <tr>
+            <td><font color="red">*</font> Имя</td>
+            <td><input type="text" id="name" /></td>
+          </tr>
+          <tr>
+            <td>Организация<br />(компания)</td>
+            <td><input type="text" id="company" /></td>
+          </tr>
+          <tr>
+            <td>Телефон</td>
+            <td><input type="text" id="phone" /></td>
+          </tr>
+          <tr>
+            <td><font color="red">*</font> Адрес эл. почты</td>
+            <td><input type="text" id="email" /></td>
+          </tr>
+          <tr>
+            <td>
+              <div align="center">
+                <button id="bttn">Отправить</button>
+              </div>
+            </td>
+            <td>
+              <div align="center">
+                <button onclick="ClearAllInput()">Очистить</button>
+              </div>
+            </td>
+          </tr>
+        </table>
+        <p><font color="red">*</font> Поля обязательные для заполнения</p>
+      </form>
+    </div>
+    <script>
+      function CheckData() {
+        var ans;
+        ans = confirm("Вы уверены, что хотите отправить введенные данные ?");
+        var input_one = document.getElementById("name");
+        var input_two = document.getElementById("email");
+        var input_three = document.getElementById("phone");
+
+        var validEMail, pattn;
+        pattn = new RegExp(
+          "^[\.\-_A-Za-z0-9]+?@[\.\-A-Za-z0-9]+?\.[A-Za-z0-9]{2,6}$"
+        );
+        var validNumber, phone_check;
+        //^((8|\+7)[\- ]?)?(\(?\d{3}\)?[\- ]?)?[\d\- ]{7,10}$
+        //^(8|7)-\d{3}-\d{3}-\d{4}$
+        phone_check = new RegExp(
+          "^(8|7)(-| )[0-9]{3}(-| )[0-9]{3}(-| )[0-9]{4}$"
+        );
+        //validNumber = phone_check.test(document.getElementById("phone").value);
+
+        if (input_one.value.length == 0) {
+          input_one.placeholder = "Введите имя";
+        } else {
+          if (input_two.value.length == 0) {
+            input_two.placeholder = "Введите почту";
+          } else {
+            validNumber = phone_check.test(
+              document.getElementById("phone").value
+            );
+            if (validNumber || input_three.value.length == 0) {
+              validEMail = pattn.test(document.getElementById("email").value);
+              if (validEMail) {
+                if (ans) submit();
+              } else {
+                input_two.value = "";
+                input_two.placeholder = "неправильная почта";
+              }
+            } else {
+              input_three.value = "";
+              input_three.placeholder = "неправильный номер";
+            }
+          }
+        }
+      }
+      function ClearAllInput() {
+        var input_one = document.getElementById("name");
+        var input_two = document.getElementById("email");
+        var input_three = document.getElementById("company");
+        var input_four = document.getElementById("phone");
+        input_one.value = "";
+        input_two.value = "";
+        input_four.value = "";
+        input_three.value = "";
+      }
+    </script>
+  </body>
+</html>
